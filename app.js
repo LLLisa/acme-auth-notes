@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 app.use(express.json()); //needed for jwt!!!
 const {
-  models: { User },
+  models: { User, Note },
 } = require('./db');
 const path = require('path');
 
@@ -23,6 +23,20 @@ app.get('/api/auth', async (req, res, next) => {
     res.send(await User.byToken(req.headers.authorization));
   } catch (ex) {
     next(ex);
+  }
+});
+
+app.get('/api/notes', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(1); //<--change this
+    const response = await Note.findAll({
+      where: {
+        userId: user.id,
+      },
+    });
+    res.send(response);
+  } catch (error) {
+    next(error);
   }
 });
 
