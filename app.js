@@ -28,7 +28,7 @@ app.get('/api/auth', async (req, res, next) => {
 
 app.get('/api/notes', async (req, res, next) => {
   try {
-    const user = await User.findByPk(1); //<--change this
+    const user = await User.byToken(req.headers.authorization);
     const response = await Note.findAll({
       where: {
         userId: user.id,

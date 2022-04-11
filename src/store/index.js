@@ -71,6 +71,6 @@ const store = createStore(
   applyMiddleware(thunk, logger)
 );
 
-export { attemptLogin, signIn, logout };
+export { attemptLogin, signIn, logout, getNotes };
 
 export default store;
