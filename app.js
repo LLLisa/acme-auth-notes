@@ -51,8 +51,11 @@ app.get('/api/notes', async (req, res, next) => {
 
 app.post('/api/notes', async (req, res, next) => {
   try {
-    await Note.create(req.body);
-    res.sendStatus(201);
+    console.log(req.body);
+    const user = await User.byToken(req.body.authorization);
+
+    const note = await Note.create(req.body);
+    res.status(201).send(note);
   } catch (error) {
     next(error);
   }

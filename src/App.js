@@ -13,7 +13,7 @@ class App extends React.Component {
   }
   render() {
     const { auth } = this.props;
-    console.log(auth);
+    // console.log(auth);
 
     if (!auth.id) {
       return (

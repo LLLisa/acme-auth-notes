@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { addNote } from './store';
 
 class AddNote extends React.Component {
   constructor() {
@@ -19,7 +20,8 @@ class AddNote extends React.Component {
 
   handleOnSubmit(ev) {
     ev.preventDefault();
-    console.log(this.state.note);
+
+    this.props.addToNotes(this.state.note);
   }
 
   render() {
@@ -41,4 +43,12 @@ class AddNote extends React.Component {
   }
 }
 
-export default connect()(AddNote);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToNotes: (note) => {
+      return dispatch(addNote(note));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddNote);

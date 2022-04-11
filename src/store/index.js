@@ -7,6 +7,9 @@ const notes = (state = [], action) => {
   if (action.type === 'SET_NOTES') {
     return action.notes;
   }
+  if (action.type === 'ADD_NOTE') {
+    return [...state, action.note];
+  }
   return state;
 };
 
@@ -63,6 +66,22 @@ const getNotes = () => {
   };
 };
 
+const addNote = (noteText) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token'); //test to see if getItem is necesy
+    if (token) {
+      const note = (
+        await axios.post('/api/notes', {
+          authorization: token,
+          text: noteText,
+        })
+      ).data;
+      console.log(note);
+      dispatch({ type: 'ADD_NOTE', note });
+    }
+  };
+};
+
 const store = createStore(
   combineReducers({
     auth,
@@ -71,6 +90,6 @@ const store = createStore(
   applyMiddleware(thunk, logger)
 );
 
-export { attemptLogin, signIn, logout, getNotes };
+export { attemptLogin, signIn, logout, getNotes, addNote };
 
 export default store;
