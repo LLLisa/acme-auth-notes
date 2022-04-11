@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import AddNote from './AddNote';
+import { deleteNote } from './store';
 
-const Notes = ({ auth, notes }) => {
+const Notes = ({ auth, notes, deleteNote }) => {
   return (
     <div>
       <Link to="/home">Home</Link>
@@ -13,7 +14,7 @@ const Notes = ({ auth, notes }) => {
           {notes.map((note) => (
             <li key={note.id}>
               {note.text}
-              {/* <button>delete</button> */}
+              <button onClick={() => deleteNote(note.id)}>delete</button>
             </li>
           ))}
         </ol>
@@ -23,4 +24,8 @@ const Notes = ({ auth, notes }) => {
   );
 };
 
-export default connect((state) => state)(Notes);
+const mapDispatchToProps = (dispatch) => ({
+  deleteNote: (id) => dispatch(deleteNote(id)),
+});
+
+export default connect((state) => state, mapDispatchToProps)(Notes);

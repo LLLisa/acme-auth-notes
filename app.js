@@ -59,6 +59,19 @@ app.post('/api/notes', async (req, res, next) => {
   }
 });
 
+app.delete('/api/notes', async (req, res, next) => {
+  try {
+    const user = await User.byToken(req.headers.authorization);
+    if (user) {
+      const note = await Note.findByPk(req.headers.id);
+      await note.destroy();
+      res.sendStatus(204);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(err.status || 500).send({ error: err.message });

@@ -22,6 +22,7 @@ class AddNote extends React.Component {
     ev.preventDefault();
 
     this.props.addToNotes(this.state.note);
+    this.setState({ note: '' });
   }
 
   render() {
