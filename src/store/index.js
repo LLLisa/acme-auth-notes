@@ -69,15 +69,18 @@ const getNotes = () => {
   };
 };
 
-const addNote = (noteText) => {
+const addNote = (text) => {
   return async (dispatch) => {
     const { token } = window.localStorage;
     if (token) {
       const note = (
-        await axios.post('/api/notes', {
-          authorization: token,
-          text: noteText,
-        })
+        await axios.post(
+          '/api/notes',
+          {
+            text,
+          },
+          { headers: { authorization: token } }
+        )
       ).data;
       dispatch({ type: 'ADD_NOTE', note });
     }
